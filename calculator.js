@@ -1,7 +1,7 @@
 //計算状況の各変数を用意　result=最終合計値　total=計算中の合計値 
 //key=入力値　mark=演算子 flag=直前の入力値の種類の判別用の変数　0:数値 1:演算子 2:=
 let result = 0;
-let key = 0;
+let key = "";
 let mark = "";
 let flag = 0;
 
@@ -12,31 +12,37 @@ function recordNumber(e) {
         document.getElementById("result").value = key
     } else if (flag === 1) {
         flag = 0;
-        key =e;
-        let total = result + mark + key;
-        result = total; 
-        key = "";
-        document.getElementById("result").value = result;
+        key = e;
+        document.getElementById("result").value = key
     } else {
         flag = 0;
         result = 0;
-        key = 0;
+        key = "";
         mark = "";
         key += e;
         document.getElementById("result").value = key;
     }
+
+    console.log("result" + result);
+    console.log("key" + key);
+    console.log("mark" + mark);
+    console.log("flag" + flag);
 }
 
 //記号を入力した場合の関数calc()。＝とそれ以外で条件分岐
 function calc(e) {
     if (e === "=") {
+        flag=2;
         mark = e;
 
         document.getElementById("result").value = result;
-    } else {
+    } else if(e==="+") {
+        flag=1;
         mark = e;
-        result = key;
-        key=0;
+        let sumResult= Number(result)+Number(key);
+        key = "";
+        result=sumResult;
+        document.getElementById("result").value=sumResult;
 
     }
 }
@@ -44,9 +50,11 @@ function calc(e) {
 //クリアキーを押したときのclearAll()関数
 function clearAll() {
     result = 0;
-    key = 0;
+    key = "";
     mark = "";
     flag = 0;
     document.getElementById("result").value = result;
 
 }
+
+
