@@ -1,123 +1,64 @@
-//計算状況の各変数を用意　result=最終合計値　total=計算中の合計値 
-//key=入力値　mark=演算子 flag=直前の入力値の種類の判別用の変数　0:数値 1:演算子 2:=
-let result = 0;
-let editResult=0;
-let key = "";
+//合計値を示すtotal、＝で計算終了した時の合計calcResult
+//直前の入力情報pastkey(数字・小数点:number、演算子:calcAction)
+//ひとつ前の演算子を示すmark、入力値を示すkeyの5つの変数を用意
+let total = 0;
+let calcResult = 0;
+let pastInput = "calcAction";
 let mark = "";
-let flag = 0;
+let key = "";
 
-//数値を入力した場合のrecordNumber()関数。ifでflagに応じて条件分岐させる
-function recordNumber(e) {
-    if (flag === 0) {
-        key += e;
+//数字・小数点のボタンがクリックされた時に動くrecordNumber関数
+
+//直前に演算子が入力されていた場合
+const recordNumber = (inputKey) => {
+    if (pastInput === "calcAction") {
+        key = inputKey;
+        pastInput = "number";
         document.getElementById("result").value = key
-    } else if (flag === 1) {
-        flag = 0;
-        key = e;
-        document.getElementById("result").value = key
+//数値が入力されていた場合
     } else {
-        flag = 0;
-        result = 0;
-        editResult=0;
-        key = "";
-        mark = "";
-        key += e;
-        document.getElementById("result").value = key;
+        key += inputKey;
+        document.getElementById("result").value = key
     }
+};
 
-    console.log("result" + result);
-    console.log("key" + key);
-    console.log("mark" + mark);
-    console.log("flag" + flag);
-}
+//演算子が入力された時に動くcalclateAction関数
+const calculateAction = (inputKey) => {
 
-//記号を入力した場合の関数calc()。＝とそれ以外で条件分岐
-function calc(e) {
-    if (e === "=") {
+    //=が入力された場合。直前に入力された演算子に応じた四則計算を行う
+    if (inputKey === "=") {
         if (mark === "+") {
-            flag = 2;
-            editResult = Number(result) + Number(key);
-            document.getElementById("result").value = editResult;
+            mark === inputKey;
+            calcResult = total + Number(key);
+            document.getElementById("result").value = calcResult;
         } else if (mark === "-") {
-            flag = 2;
-            editResult = Number(result) - Number(key);
-            document.getElementById("result").value = editResult;
+            mark === inputKey;
+            calcResult = total - Number(key);
+            document.getElementById("result").value = calcResult;
         } else if (mark === "*") {
-            flag = 2;
-            editResult = Number(result) * Number(key);
-            document.getElementById("result").value = editResult;
+            mark === inputKey;
+            calcResult = total * Number(key);
+            document.getElementById("result").value = calcResult;
         } else if (mark === "/") {
-            flag = 2;
-            editResult = Number(result) / Number(key);
-            document.getElementById("result").value = editResult;
+            mark === inputKey;
+            calcResult = total / Number(key);
+            document.getElementById("result").value = calcResult;
         }
-    } else if (e === "+") {
-        flag = 1;
-        mark = e;
-        let sumResult = Number(result) + Number(key);
-        key = "";
-        result = sumResult;
-        document.getElementById("result").value = result;
-    } else if (e === "-") {
-        if (result === 0) {
-            flag = 1;
-            mark = e;
-            result = Number(key)
-            key = "";
-            document.getElementById("result").value = result;
-        } else {
-            flag = 1;
-            mark = e;
-            let sumResult = Number(result) - Number(key);
-            key = "";
-            result = sumResult;
-            document.getElementById("result").value = result;
-        }
-    } else if (e === "*") {
-        if (result === 0) {
-            flag = 1;
-            mark = e;
-            result = Number(key)
-            key = "";
-            document.getElementById("result").value = result;
-        } else {
-            flag = 1;
-            mark = e;
-            let sumResult = Number(result) * Number(key);
-            key = "";
-            result = sumResult;
-            document.getElementById("result").value = sumResult;
-        }
-    } else if (e === "/") {
-        if (result === 0) {
-            flag = 1;
-            mark = e;
-            result = Number(key)
-            key = "";
-            document.getElementById("result").value = result;
-        } else {
-            flag = 1;
-            mark = e;
-            let sumResult = Number(result) / Number(key);
-            key = "";
-            result = sumResult;
-            document.getElementById("result").value = sumResult;
-        }
+    //+の計算部分    
+    } else if (inputKey === "+") {
+        mark = inputKey;
+        total = calcResult + Number(key);
+        document.getElementById("result").value = total;
     }
 
+    //直前の入力情報を演算子に切り替え
+    pastInput = "calcAction";
 
-
-}
-
-
-//クリアキーを押したときのclearAll()関数
-function clearAll() {
-    result = 0;
-    key = "";
-    mark = "";
-    flag = 0;
-    document.getElementById("result").value = result;
+    console.log("total" + total);
+    console.log("calcResult" + calcResult);
+    console.log("pastInput" + pastInput);
+    console.log("mark" + mark);
+    console.log("key" + key);
 
 }
-
 
