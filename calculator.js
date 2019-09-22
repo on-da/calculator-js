@@ -4,25 +4,21 @@
 let total = 0;
 let pastTotal = 0;
 let pastInpuType = "calcAction";
-let mark = "";
+let mark = "+";
 let key = "";
 
 //数字・小数点のボタンがクリックされた時に動くrecordNumber関数
 
-//直前に演算子が入力されていた場合
 const recordNumber = (inputKey) => {
-    if (pastInpuType === "calcAction") {
-         //＝の後に数値を入力した場合、計算をリセットする
-        if (mark === "=") {
+    if (pastInpuType === "calcAction") {//直前に演算子が入力されていた場合      
+        if (mark === "=") {//＝の後に数値を入力した場合、計算をリセットする
             total = 0;
-　　　　　　 pastTotal = 0;
+            pastTotal = 0;
             mark = "";
             key = inputKey;
         } else {
-            key = inputKey;
-        }
-        //数値が入力されていた場合
-    } else {
+            key = inputKey;    
+    }} else {//数値が入力されていた場合
         key += inputKey;
     }
     //直前の入力情報を演算子から数値に切り替え最後に電卓の表示を更新
@@ -34,29 +30,27 @@ const recordNumber = (inputKey) => {
 
 const editAction = (inputKey) => {
     //=が入力された場合。直前に入力された演算子に応じた四則計算を行う
-    if (inputKey === "=") {
 
-        //=の前の演算子で生まれたtotalの値をpastTotalへ
-        pastTotal = total;
+    //=の前の演算子で生まれたtotalの値をpastTotalへ
+    pastTotal = total;
 
-        //＝の前の演算子4パターンの条件分岐
-        if (mark === "+") {
-            mark === inputKey;
-            total = pastTotal + Number(key);
-        } else if (mark === "-") {
-            mark === inputKey;
-            pastTotal = total - Number(key);
-        } else if (mark === "*") {
-            mark === inputKey;
-            pastTotal = total * Number(key);
-        } else if (mark === "/") {
-            mark === inputKey;
-            pastTotal = total / Number(key);
-        }
+    //＝の前の演算子4パターンの条件分岐
+    if (mark === "+") {
+        total = pastTotal + Number(key);
+    } else if (mark === "-") {
+        total = pastTotal - Number(key);
+    } else if (mark === "*") {
+        total = pastTotal * Number(key);
+    } else if (mark === "/") {
+        total = pastTotal / Number(key);
     }
-    //直前の入力情報を演算子に切り替え、計算結果を表示
+
+    //直前の入力情報を演算子に切り替え、入力情報をクリア（=のあとに演算子を押してもいいように）計算結果を表示
     pastInpuType = "calcAction"
+    mark === inputKey
+    key = "";
     document.getElementById("result").value = total;
+
 };
 
 
@@ -69,7 +63,6 @@ const calculateAction = (inputKey) => {
     //+の計算部分    
     if (mark === "+") {
         total = pastTotal + Number(key);
-        document.getElementById("result").value = total;
 
         //-の計算部分
     } else if (mark === "-") {
@@ -77,25 +70,18 @@ const calculateAction = (inputKey) => {
 
         //*の計算部分
     } else if (mark === "*") {
-        {
-            if (pastTotal === 0) {
-                total = Number(key);
-            } else {
-                total = pastTotal * Number(key);
-            }
+        if (key === "") {//=の入力直後に演算子を打った場合の処理
+            total = pastTotal;
+        } else {
+            total = pastTotal * Number(key);
         }
-        
         // /の計算部分
     } else if (mark === "/") {
-        {
-            if (pastTotal === 0) {
-                total = Number(key);
-            } else {
-                total = pastTotal / Number(key);
-            }
+        if (key === "") {//同上
+            total = pastTotal;
+        } else {
+            total = pastTotal / Number(key);
         }
-    } else {
-        total = Number(key);
     }
 
     //演算子の入力情報を更新、直前の入力情報を演算子に切り替え、電卓の表示の更新
@@ -109,9 +95,17 @@ const clearAll = () => {
     total = 0;
     pastTotal = 0;
     pastInpuType = "calcAction";
-    mark = "";
+    mark = "+";
     key = "";
     document.getElementById("result").value = total;
 }
 
 
+/* 各変数をコンソールで確認するためのコード　コピペ用
+console.log("total:" + total);
+console.log("pastTotal:" + pastTotal);
+console.log("pastInputType:" + pastInpuType);
+console.log("mark:" + mark);
+console.log("key:" + key);
+console.log("-------------------------");
+*/
