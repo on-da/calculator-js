@@ -14,7 +14,7 @@ const recordNumber = (inputKey) => {
         if (mark === "=") {//＝の後に数値を入力した場合、計算をリセットする
             total = 0;
             pastTotal = 0;
-            mark = "";
+            mark = "+";
             key = inputKey;
         } else {
             key = inputKey;    
