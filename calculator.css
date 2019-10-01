@@ -14,7 +14,9 @@ input{
     text-align:center;
     border-radius:10px;
     border:2px solid #000;
-    transition:0.1s
+    transition:0.1s;
+    font-size: 20px;
+
 }
 
 .formFlame{
